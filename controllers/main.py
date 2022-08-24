@@ -1,71 +1,41 @@
 from odoo import http
 from odoo.http import request
+from odoo.addons.portal.controllers import portal
 
 
-class WebsiteForm(http.Controller):
-    @http.route(['/appointment'], type='http', auth="public", website=True)
-    def appointment(self):
-        patient_card = request.env['hospital.management'].sudo().search([])
-        doctor_id = request.env['hr.employee'].sudo().search(
-            [('job_id', '=', 'Doctor')])
-        values = {}
-        values.update({
-            'patients': patient_card,
-            'doctors': doctor_id
-        })
-        print(values,"valll")
-        return request.render(
-            "website_hospital_appointment.online_appointment_form", values)
+class PayslipPortal(portal.CustomerPortal):
+    def _prepare_home_portal_values(self, counters):
+        values = super()._prepare_home_portal_values(counters)
+        user = request.env.user
+        print(user)
+        payslips = request.env['hr.employee'].search([('id', '=', user.employee_id.id)])
+        print(payslips.payslip_count)
+        if 'payslip_count' in counters:
+            values['payslip_count'] = payslips.payslip_count
+            print('va:', values)
+        return values
 
-    @http.route(['/appointment/submit'], type='http', auth='public',
-                website=True)
-    def appointment_submit(self, **post):
-        patient = int(post['patient_id'])
-        doctor = int(post['doctor_id'])
-        date = post.get('appointment_date')
-        print(patient, doctor, date)
-        appointments = request.env['hospital.appointment'].sudo().search([])
-        appointments.create({
-            'patient_card_id': patient,
-            'date': date,
-            'doctor_id': doctor,
-        })
-        vals = {
-            'appointments': appointments,
+    # Payslip Table Values
+    @http.route(['/my/payslip'], type='http', auth="user", website=True)
+    def payslip_records(self):
+        user = request.env.user
+        print(user)
+        payslips = request.env['hr.payslip'].search([('employee_id.user_id', '=', user.id)])
+        print('p:', payslips)
+        print(self)
+        values = {
+            'payslips': payslips,
         }
-        return request.render(
-            "website_hospital_appointment.appointment_creation_success", vals)
+        print(values)
+        return request.render("payslip_portal.payslip_portal_template", values)
 
-    # create patient card if it's not existing
-    @http.route(['/appointment/card/create'], type='http', auth='public',
-                website=True)
-    def create_card(self):
-        patient = request.env['res.partner'].sudo().search([])
-        values = {}
-        values.update({
-            'patients': patient
-        })
-        return request.render(
-            "website_hospital_appointment.card_creation_form", values)
-
-    # card submit button
-    @http.route(['/appointment/card/submit'], type='http', auth='public',
-                website=True)
-    def appointment_card_submit(self, **post):
-        patient_card = int(post['partner_id'])
-        dob = str(post.get('date_of_birth'))
-        email = post.get('email')
-        phone = post.get('phone')
-        card = request.env['hospital.management'].sudo().search([])
-        card.create({
-            'patient_id': patient_card,
-            'dob': dob,
-            'email': email,
-            'patient_phone': phone,
-        })
-        vals = {
-            'card': card,
+    # Payslip Report Values
+    @http.route(['/print/report'], type='http', auth="user", website=True)
+    def payslip_report(self):
+        user = request.env.user
+        payslip_id = request.env['hr.payslip'].search([('employee_id.user_id', '=', user.id)])
+        print(payslip_id)
+        value = {
+            'payslip': payslip_id
         }
-        return request.render(
-            "website_hospital_appointment.card_creation_success",
-            vals)
+        return request.render("payslip_portal.payslip_report", value)

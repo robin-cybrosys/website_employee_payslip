@@ -2,7 +2,7 @@
 {
     'name': "Website Employee Payslip",
     'application': "True",
-    'author': "The R",
+    'author': "R",
     'website': "http://www.cybrosys.com",
     'sequence': "-1",
     'licence': "LGPL-3",
@@ -15,6 +15,7 @@
     # always loaded
     'data': [
         'views/employee_portal_template.xml',
+        'views/report_payslip_templates.xml',
         # 'views/appointments_page.xml',
         # 'views/appointments_webpage_template.xml',
     ],

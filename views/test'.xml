@@ -1,0 +1,63 @@
+<odoo>
+
+    <template id="portal_my_home_sale" name="Show Quotations / Sales Orders" customize_show="True"
+              inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Payslips</t>
+                <t t-set="url" t-value="'/my/payslip'"/>
+                <t t-set="placeholder_count" t-value="'payslip_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_menu_payslip" inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li>/Payslip</li>
+        </xpath>
+    </template>
+
+    <template id="payslip_portal_template" name="My Payslips">
+        <t t-call="portal.portal_layout">
+            <t t-if="not payslips">
+                <p>There are currently no Payslips record for you</p>
+            </t>
+            <t t-if="payslips" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Payslips #</th>
+                        <th class="text-center">Employee</th>
+                        <th class="text-center">Payslip Name</th>
+                        <th class="text-center">Date From</th>
+                        <th class="text-center">Date From</th>
+                        <th class="text-center">Contract</th>
+                    </tr>
+                </thead>
+                <t t-foreach="payslips" t-as="data">
+                    <tr>
+                        <td class="text-left">
+                            <a t-attf-href="/print/report">
+                                <t t-esc="data.number"/>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="data.employee_id"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="data.name" id="name"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="data.date_from"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="data.date_to"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-field="data.contract_id"/>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
