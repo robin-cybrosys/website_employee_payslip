@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="report_payslip" model="ir.actions.report">
-            <field name="name">Patient History</field>
-            <field name="model">PortalPayslip</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">website_employee_payslip.payslip_report</field>
-            <field name="report_file">website_employee_payslip.payslip_report</field>
+<!--    <record id="report_payslip" model="ir.actions.report">-->
+<!--            <field name="name">Patient History</field>-->
+<!--            <field name="model">PortalPayslip</field>-->
+<!--            <field name="report_type">qweb-pdf</field>-->
+<!--            <field name="report_name">website_employee_payslip.payslip_report</field>-->
+<!--            <field name="report_file">website_employee_payslip.payslip_report</field>-->
 
-        </record>
+<!--        </record>-->
 <template id="payslip_report">
     <t t-call="web.html_container">
         <t t-foreach="payslips" t-as="o">

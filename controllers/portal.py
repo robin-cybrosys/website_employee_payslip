@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-from odoo import http, _
-from odoo.addons.portal.controllers.portal import CustomerPortal, \
-    pager as portal_pager
-from odoo.exceptions import AccessError, MissingError
-from collections import OrderedDict
+from odoo import http
+from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
 
 
-class PortalPayslip(CustomerPortal):
+class PayslipPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
@@ -26,20 +23,19 @@ class PortalPayslip(CustomerPortal):
     # checking user & payslips
     def _get_payslips_domain(self):
         return [('employee_id.user_id', '=', request.uid),
-                ('state', 'in', ('verify', 'done'))]
+                ('state', 'in', ('verify', 'done', 'cancel'))]
 
     def _invoice_get_page_view_values(self, payslip, access_token, **kwargs):
         values = {
             'page_name': 'payslip',
             'payslip': payslip,
         }
-        return self._get_page_view_values(payslip, access_token, values,
-                                          'my_invoices_history', False,
+        return self._get_page_view_values(payslip, access_token, values, False,
                                           **kwargs)
 
-    @http.route(['/my/payslips', '/my/payslips/page/<int:page>'], type='http',
+    @http.route(['/my/payslips'], type='http',
                 auth="user", website=True)
-    def portal_my_invoices(self, date_begin=None):
+    def portal_my_payslips(self, date_begin=None):
         values = self._prepare_portal_layout_values()
         hr_payslip = request.env['hr.payslip']
 
@@ -52,21 +48,38 @@ class PortalPayslip(CustomerPortal):
             'date': date_begin,
             'payslips': payslips,
             'page_name': 'payslip',
-            'default_url': '/my/payslips',
+            # 'default_url': '/my/payslips',
         })
         return request.render("website_employee_payslip.portal_my_payslips",
                               values)
 
     @http.route(['/print/report'], type='http', auth="user", website=True)
     def payslip_report(self):
-        user = request.env.user
-        payslip_id = request.env['hr.payslip'].search(
-            [('employee_id.user_id', '=', user.id)])
-        print(payslip_id)
-        value = {
-            'payslip': payslip_id
+        # r = request.env.ref('website_employee_payslip.report_payslip')
+        # pdf = r.sudo().render_qweb_pdf([int(id)])[0]
+        hr_payslip = request.env['hr.payslip']
+        domain = self._get_payslips_domain()
+        payslips = hr_payslip.search(domain, limit=self._items_per_page)
+        # request.session['my_payroll_history'] = payslips.ids[:100]
+
+        values = {
+            'payslips': payslips,
+            # 'page_name': 'payslip',
+            # 'default_url': '/my/payslips',
         }
-        return request.render("website_employee_payslip.report_payslip", value)
+
+        return request.render("website_employee_payslip.report_payslip", values)
+
+    # @http.route(['/print/report'], type='http', auth="user", website=True)
+    # def payslip_report(self):
+    #     user = request.env.user
+    #     payslip_id = request.env['hr.payslip'].search(
+    #         [('employee_id.user_id', '=', user.id)])
+    #     print(payslip_id)
+    #     value = {
+    #         'payslip': payslip_id
+    #     }
+    #     return request.render("website_employee_payslip.report_payslip", value)
 
     # @http.route(['/my/payslips/<int:invoice_id>'], type='http', auth="public",
     #             website=True)
