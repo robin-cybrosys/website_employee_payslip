@@ -14,9 +14,9 @@
 
     # always loaded
     'data': [
-        'views/employee_portal_template.xml',
+        # 'views/employee_portal_template.xml',
         'views/report_payslip_templates.xml',
-        # 'views/appointments_page.xml',
+        'views/test.xml',
         # 'views/appointments_webpage_template.xml',
     ],
 }

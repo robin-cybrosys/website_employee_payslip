@@ -49,53 +49,57 @@
                 </thead>
                 <tbody>
                     <t t-foreach="payslips" t-as="payslip">
-                        <tr>
-                            <td>
-                                <a t-attf-href="'/report/pdf/website_employee_payslip.payslip_report/%s' % payslip.id">
-<!--                                <a t-attf-href="/print/report">-->
-                                    <t t-esc="payslip.number"/>
-                                </a>
-                            </td>
-                            <td>
-                                <a t-attf-href="/print/report">
-                                    <t t-esc="payslip.name"/>
-                                </a>
-                            </td>
-                            <td>
-                                <span t-field="payslip.contract_id"/>
-                            </td>
-                            <td>
-                                <span t-field="payslip.date_from"/>
-                            </td>
-                            <td>
-                                <span t-field="payslip.date_to"/>
-                            </td>
-                            <td class="tx_status">
-                                <t t-if="payslip.state == 'done' ">
-                                    <span class="badge badge-pill badge-success">
-                                        <i class="fa fa-fw fa-check"
-                                           aria-label="Opened" title="Confirm"
-                                           role="img"></i>
-                                        <span class="d-none d-md-inline">
-                                            Confirmed
+
+
+                            <!--                        <t t-set="report_url"-->
+                            <!-- t-value="payslip.get_portal_url(report_type='pdf', download=True)"/>-->
+                            <tr>
+                                <td>
+                                    <a t-attf-href="'payslip.get_portal_url(report_type='pdf', download=True) #{payslip.id}">
+                                        <!--                                <a t-att-href="report_url">-->
+                                        <t t-esc="payslip.number"/>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a t-attf-href="/print/report">
+                                        <t t-esc="payslip.name"/>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span t-field="payslip.contract_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="payslip.date_from"/>
+                                </td>
+                                <td>
+                                    <span t-field="payslip.date_to"/>
+                                </td>
+                                <td class="tx_status">
+                                    <t t-if="payslip.state == 'done' ">
+                                        <span class="badge badge-pill badge-success">
+                                            <i class="fa fa-fw fa-check"
+                                               aria-label="Opened"
+                                               title="Confirm"
+                                               role="img"/>
+                                            <span class="d-none d-md-inline">
+                                                Confirmed
+                                            </span>
                                         </span>
-                                    </span>
-                                </t>
+                                    </t>
 
-                                <t t-if="payslip.state == 'cancel'">
-                                    <span class="badge badge-pill badge-danger">
-                                        <i class="fa fa-fw fa-remove"
-                                           aria-label="Cancelled"
-                                           title="Cancelled" role="img"></i>
-                                        <span class="d-none d-md-inline">
-                                            Cancelled
+                                    <t t-if="payslip.state == 'cancel'">
+                                        <span class="badge badge-pill badge-danger">
+                                            <i class="fa fa-fw fa-remove"
+                                               aria-label="Cancelled"
+                                               title="Cancelled" role="img"/>
+                                            <span class="d-none d-md-inline">
+                                                Cancelled
+                                            </span>
                                         </span>
-                                    </span>
-                                </t>
-                            </td>
+                                    </t>
+                                </td>
+                            </tr>
 
-
-                        </tr>
                     </t>
                 </tbody>
             </t>

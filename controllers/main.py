@@ -1,41 +1,38 @@
-from odoo import http
-from odoo.http import request
-from odoo.addons.portal.controllers import portal
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from odoo import exceptions, SUPERUSER_ID
+from odoo.addons.sale.controllers.portal import CustomerPortal
+from odoo.http import request, route
+from odoo.tools import consteq
 
 
-class PayslipPortal(portal.CustomerPortal):
-    def _prepare_home_portal_values(self, counters):
-        values = super()._prepare_home_portal_values(counters)
-        user = request.env.user
-        print(user)
-        payslips = request.env['hr.employee'].search([('id', '=', user.employee_id.id)])
-        print(payslips.payslip_count)
-        if 'payslip_count' in counters:
-            values['payslip_count'] = payslips.payslip_count
-            print('va:', values)
-        return values
+class SaleStockPortal(CustomerPortal):
 
-    # Payslip Table Values
-    @http.route(['/my/payslip'], type='http', auth="user", website=True)
-    def payslip_records(self):
-        user = request.env.user
-        print(user)
-        payslips = request.env['hr.payslip'].search([('employee_id.user_id', '=', user.id)])
-        print('p:', payslips)
-        print(self)
-        values = {
-            'payslips': payslips,
-        }
-        print(values)
-        return request.render("payslip_portal.payslip_portal_template", values)
+    def _stock_picking_check_access(self, picking_id, access_token=None):
+        picking = request.env['stock.picking'].browse([picking_id])
+        picking_sudo = picking.sudo()
+        try:
+            picking.check_access_rights('read')
+            picking.check_access_rule('read')
+        except exceptions.AccessError:
+            if not access_token or not consteq(picking_sudo.sale_id.access_token, access_token):
+                raise
+        return picking_sudo
 
-    # Payslip Report Values
-    @http.route(['/print/report'], type='http', auth="user", website=True)
-    def payslip_report(self):
-        user = request.env.user
-        payslip_id = request.env['hr.payslip'].search([('employee_id.user_id', '=', user.id)])
-        print(payslip_id)
-        value = {
-            'payslip': payslip_id
-        }
-        return request.render("payslip_portal.payslip_report", value)
+    @route(['/my/picking/pdf/<int:picking_id>'], type='http', auth="public", website=True)
+    def portal_my_picking_report(self, picking_id, access_token=None, **kw):
+        """ Print delivery slip for customer, using either access rights or access token
+        to be sure customer has access """
+        try:
+            picking_sudo = self._stock_picking_check_access(picking_id, access_token=access_token)
+        except exceptions.AccessError:
+            return request.redirect('/my')
+
+        # print report as SUPERUSER, since it require access to product, taxes, payment term etc.. and portal does not have those access rights.
+        pdf = request.env.ref('stock.action_report_delivery').with_user(SUPERUSER_ID)._render_qweb_pdf([picking_sudo.id])[0]
+        pdfhttpheaders = [
+            ('Content-Type', 'application/pdf'),
+            ('Content-Length', len(pdf)),
+        ]
+        return request.make_response(pdf, headers=pdfhttpheaders)
