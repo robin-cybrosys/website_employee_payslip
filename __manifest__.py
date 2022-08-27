@@ -11,8 +11,6 @@
     'depends': ['base', 'website', 'hr', 'hr_payroll_community'],
     'data': [
         'views/report_payslip_templates.xml',
-        'views/employee_portal_template.xml',
-        # 'views/test.xml',
-        # 'views/appointments_webpage_template.xml',
+        'views/employee_portal_template.xml'
     ],
 }

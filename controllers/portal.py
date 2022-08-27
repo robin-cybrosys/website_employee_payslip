@@ -34,18 +34,21 @@ class PayslipPortal(CustomerPortal):
         return request.render("website_employee_payslip.portal_my_payslips",
                               values)
 
-    @http.route(['/print/report/'], type='http', auth="user", website=True)
-    def payslip_report(self, **kw):
+    @http.route(['/print/report/<int:payslip_id>'], type='http', auth="user",
+                website=True)
+    def payslip_report(self, payslip_id):
         payslip = request.env['hr.payslip'].search(
             [('employee_id.user_id', '=', request.env.user.id),
-             ('state', 'in', ('verify', 'done'))])
+             ('state', 'in', ('verify', 'done')),
+             ('id', '=', payslip_id)])
+        print(payslip, "pslip")
         value = {
-                    'payslip': payslip
-                }
+            'payslip': payslip
+        }
         pdf = request.env.ref(
             'website_employee_payslip.report_payslip').with_context(
             value)._render_qweb_pdf([payslip])[0]
         pdfhttpheaders = [('Content-Type', 'application/pdf'),
-            ('Content-Length', len(pdf)),
-        ]
+                          ('Content-Length', len(pdf)),
+                          ]
         return request.make_response(pdf, headers=pdfhttpheaders)

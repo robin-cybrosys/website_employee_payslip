@@ -51,14 +51,14 @@
                 <tbody>
                     <t t-foreach="payslips" t-as="payslip">
                         <tr>
-                            <td>
-                                <a t-attf-href="/print/report">
-                                    <t t-esc="payslip.number"/>
+                            <td >
+                                <a t-attf-href="/print/report/#{payslip.id}">
+                                    <t t-esc="payslip.number" />
                                 </a>
                             </td>
                             <td>
-                                <a t-attf-href="/print/report">
-                                    <t t-esc="payslip.name"/>
+                                <a t-attf-href="/print/report/#{payslip.id}" >
+                                    <t t-esc="payslip.name" />
                                 </a>
                             </td>
                             <td>

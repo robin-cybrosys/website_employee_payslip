@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9766f86a-5a81-4f65-b492-b2fff6140d45" name="Changes" comment="25:final commit" />
+    <list default="true" id="9766f86a-5a81-4f65-b492-b2fff6140d45" name="Changes" comment="Aug 27:all payslips printing">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/portal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/employee_portal_template.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/employee_portal_template.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/report_payslip_templates.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/report_payslip_templates.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661429036604</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Aug 27:all payslips printing">
+      <created>1661624948494</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1661624948494</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,6 +108,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="24:final commit" />
     <MESSAGE value="25:final commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="25:final commit" />
+    <MESSAGE value="Aug 27:all payslips printing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aug 27:all payslips printing" />
   </component>
 </project>

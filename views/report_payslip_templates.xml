@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="report_payslip" model="ir.actions.report">
-        <field name="name">Patient History</field>
+        <field name="name">Payslip</field>
         <field name="model">hr.payslip</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">website_employee_payslip.payslip_report</field>
+        <field name="print_report_name">'Payslip - %s' % (object.name)</field>
     </record>
     <template id="payslip_report">
         <t t-call="web.html_container">
@@ -13,7 +14,7 @@
                     <t t-foreach="payslip" t-as="o">
                         <div>
                             <h2>Pay Slip</h2>
-                            <p t-field="o.name"/>
+                            <p t-field="o.name"/><br/>
 
                             <table class="table table-sm table-bordered">
                                 <tr>
@@ -118,7 +119,7 @@
                                 </tbody>
                             </table>
 
-                            <p class="text-right">
+                            <br/><p class="text-right">
                                 <strong>Authorized signature</strong>
                             </p>
                         </div>
