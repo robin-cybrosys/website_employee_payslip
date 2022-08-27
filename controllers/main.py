@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import exceptions, SUPERUSER_ID
 from odoo.addons.sale.controllers.portal import CustomerPortal
@@ -28,7 +27,6 @@ class SaleStockPortal(CustomerPortal):
             picking_sudo = self._stock_picking_check_access(picking_id, access_token=access_token)
         except exceptions.AccessError:
             return request.redirect('/my')
-
         # print report as SUPERUSER, since it require access to product, taxes, payment term etc.. and portal does not have those access rights.
         pdf = request.env.ref('stock.action_report_delivery').with_user(SUPERUSER_ID)._render_qweb_pdf([picking_sudo.id])[0]
         pdfhttpheaders = [
