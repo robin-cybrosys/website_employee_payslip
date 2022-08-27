@@ -24,7 +24,6 @@ class PayslipPortal(CustomerPortal):
     @http.route(['/my/payslips'], type='http', auth="user", website=True)
     def portal_my_payslips(self):
         user = request.env.user
-        print(user)
         domain = self._get_payslips_domain()
         payslips = request.env['hr.payslip'].search(domain)
         values = {
@@ -41,7 +40,6 @@ class PayslipPortal(CustomerPortal):
             [('employee_id.user_id', '=', request.env.user.id),
              ('state', 'in', ('verify', 'done')),
              ('id', '=', payslip_id)])
-        print(payslip, "pslip")
         value = {
             'payslip': payslip
         }

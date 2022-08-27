@@ -1,5 +1,4 @@
 <odoo>
-
     <template id="portal_my_home_menu_payslip"
               name="Portal layout : payslip menu entries"
               inherit_id="portal.portal_breadcrumbs" priority="30">
@@ -13,9 +12,6 @@
             </li>
             <li t-if="payslip" class="breadcrumb-item active">
                 <t t-esc="payslip.name" t-if="payslip.name != '/'"/>
-                <!--                <t t-else="">-->
-                <!--                    <em>Draft Invoice1</em>-->
-                <!--                </t>-->
             </li>
         </xpath>
     </template>
@@ -95,7 +91,6 @@
                                 </t>
                             </td>
                         </tr>
-
                     </t>
                 </tbody>
             </t>

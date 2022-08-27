@@ -3,9 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9766f86a-5a81-4f65-b492-b2fff6140d45" name="Changes" comment="Aug 27:all payslips printing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__manifest__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/portal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/employee_portal_template.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/employee_portal_template.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/report_payslip_templates.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/report_payslip_templates.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/test.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
